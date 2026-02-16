@@ -3,10 +3,6 @@
   --green:#0CA85D;
 }
 .app-shell{height:100vh;display:flex;flex-direction:column;font-family:'Poppins',sans-serif}
-.topbar{height:72px;background:linear-gradient(90deg,rgba(16,80,26,0.9),rgba(120,80,10,0.85));color:white;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
-.brand{font-weight:700;font-size:1.25rem}
-.top-actions{display:flex;align-items:center;gap:16px}
-.btn-logout{background:transparent;border:1px solid rgba(255,255,255,0.25);color:white;padding:8px 12px;border-radius:6px;cursor:pointer}
 .main{display:flex;flex:1}
 .sidebar{width:220px;background:#fff;border-right:1px solid #eee;padding-top:24px}
 .sidebar nav ul{list-style:none;padding:0;margin:0}

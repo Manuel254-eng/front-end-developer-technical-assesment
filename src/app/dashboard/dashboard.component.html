@@ -1,11 +1,5 @@
 <div class="app-shell">
-  <header class="topbar">
-    <div class="brand">Inua Mkulima Subsidy Program</div>
-    <div class="top-actions">
-      <span class="logged">Logged In As:&nbsp; <strong>{{ userName }}</strong></span>
-      <button class="btn-logout" (click)="logout()">Logout</button>
-    </div>
-  </header>
+  <app-top-bar [userName]="userName" (logoutClick)="logout()"></app-top-bar>
 
   <div class="main">
     <aside class="sidebar">

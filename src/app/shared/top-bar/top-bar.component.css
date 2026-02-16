@@ -1,0 +1,49 @@
+.topbar {
+  height: 72px;
+  background: linear-gradient(95deg, #0f4f20 0%, #1f5b19 38%, #6f650c 72%, #8c6710 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    padding: 0 14px;
+    height: 64px;
+  }
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .logged {
+    font-size: 0.85rem;
+  }
+
+  .btn-logout {
+    padding: 7px 10px;
+  }
+}
+

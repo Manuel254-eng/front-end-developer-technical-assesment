@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { TopBarComponent } from '../shared/top-bar/top-bar.component';
 
 interface SelectedProduct {
   id: number;
@@ -23,6 +24,7 @@ interface StoredUser {
   firstName?: string;
   lastName?: string;
   username?: string;
+  email?: string;
 }
 
 /**
@@ -34,13 +36,14 @@ interface StoredUser {
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TopBarComponent],
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent implements OnInit {
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef<HTMLInputElement>>;
 
+  userName: string | null = null;
   selected: SelectedProduct[] = [];
   total = 0;
   totalDeduction = 0;
@@ -49,6 +52,7 @@ export class SummaryComponent implements OnInit {
   verification: string[] = ['1', '2', '3', '4', '5', '6'];
 
   showPaymentModal = false;
+  showLogoutModal = false;
   paymentRef = '';
   paymentDate = '';
   customerLabel = '';
@@ -56,6 +60,16 @@ export class SummaryComponent implements OnInit {
   constructor(private readonly router: Router) {}
 
   ngOnInit(): void {
+    try {
+      const raw = localStorage.getItem('user');
+      if (raw) {
+        const user = JSON.parse(raw) as StoredUser;
+        this.userName = (user.firstName || user.username || user.email || 'User').toUpperCase();
+      }
+    } catch {
+      this.userName = 'USER';
+    }
+
     const nav = (window.history?.state || {}) as SummaryNavigationState;
 
     this.selected = nav.selected || [];
@@ -74,6 +88,11 @@ export class SummaryComponent implements OnInit {
     }
   }
 
+  /** Opens logout confirmation modal. */
+  logout(): void {
+    this.showLogoutModal = true;
+  }
+
   /** Returns to dashboard to revise selected products. */
   back(): void {
     this.router.navigateByUrl('/dashboard');
@@ -88,6 +107,25 @@ export class SummaryComponent implements OnInit {
   donePayment(): void {
     this.showPaymentModal = false;
     this.router.navigateByUrl('/dashboard');
+  }
+
+  /** Clears local auth context and returns user to login. */
+  confirmLogout(): void {
+    try {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('user');
+    } catch {
+      // Ignore storage errors and continue to sign out.
+    }
+
+    this.showLogoutModal = false;
+    this.router.navigateByUrl('/login');
+  }
+
+  /** Closes logout confirmation modal without signing out. */
+  cancelLogout(): void {
+    this.showLogoutModal = false;
   }
 
   /**
