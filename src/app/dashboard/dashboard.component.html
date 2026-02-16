@@ -2,15 +2,7 @@
   <app-top-bar [userName]="userName" (logoutClick)="logout()"></app-top-bar>
 
   <div class="main">
-    <aside class="sidebar">
-      <nav>
-        <ul>
-          <li class="active">Dashboard</li>
-          <li>Transactions</li>
-          <li>Reports</li>
-        </ul>
-      </nav>
-    </aside>
+    <app-sidebar></app-sidebar>
 
     <section class="content">
       <h2>Product Details</h2>

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { TopBarComponent } from '../shared/top-bar/top-bar.component';
 
 interface SelectedProduct {
@@ -36,7 +37,7 @@ interface StoredUser {
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, TopBarComponent],
+  imports: [CommonModule, RouterModule, FormsModule, TopBarComponent, SidebarComponent],
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css']
 })

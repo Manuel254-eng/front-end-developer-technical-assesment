@@ -2,6 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { TopBarComponent } from '../shared/top-bar/top-bar.component';
 
 interface StoredUser {
@@ -38,7 +39,7 @@ interface SelectedProduct {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule, TopBarComponent],
+  imports: [CommonModule, RouterModule, HttpClientModule, TopBarComponent, SidebarComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

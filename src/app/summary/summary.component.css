@@ -4,10 +4,6 @@
 }
 .app-shell{height:100vh;display:flex;flex-direction:column;font-family:'Poppins',sans-serif}
 .main{display:flex;flex:1}
-.sidebar{width:220px;background:#fff;border-right:1px solid #eee;padding-top:24px}
-.sidebar nav ul{list-style:none;padding:0;margin:0}
-.sidebar nav li{padding:18px 24px;color:#666;font-weight:600}
-.sidebar nav li.active{border-left:4px solid var(--accent);background:#fff9f0;color:#222}
 .content{flex:1;padding:28px 48px;background:#f7f7f7}
 .toolbar{display:flex;align-items:center;gap:20px;margin-bottom:18px}
 .btn-back{background-color: #E0A10F;color:white;padding:8px 12px;border-radius:6px;border:none;cursor:pointer}
@@ -66,7 +62,7 @@
 .footer-action{display:flex;justify-content:center;margin-top:36px;gap:12px}
 .btn-deduct{background:#111;color:white;padding:12px 28px;border-radius:8px;border:none;cursor:pointer}
 
-@media (max-width:900px){.sidebar{display:none}.content{padding:18px}}
+@media (max-width:900px){.content{padding:18px}}
 
 /* Logout modal styles */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:2000}
