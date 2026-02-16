@@ -1,0 +1,122 @@
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">Inua Mkulima Subsidy Program</div>
+    <div class="top-actions">
+      <span class="logged">Summary</span>
+    </div>
+  </header>
+
+  <div class="main">
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li class="active">Dashboard</li>
+          <li>Transactions</li>
+          <li>Reports</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <section class="content">
+      <h2>Summary</h2>
+
+      <div class="summary-nav">
+        <button class="btn-back-nav" (click)="back()" aria-label="Back">
+          <span class="back-icon">‹</span>
+          <span>Back</span>
+        </button>
+        <a class="crumb-link" (click)="back()">Product Details</a>
+        <span class="crumb-sep">›</span>
+        <span class="crumb-current">Summary</span>
+      </div>
+
+      <div class="panels">
+        <div class="panel selected-2">
+          <h3>Selected Products</h3>
+          <div *ngIf="selected.length === 0" class="empty">No products selected.</div>
+          <div *ngIf="selected.length > 0" class="selected-list">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product name</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Deduction</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of selected">
+                  <td>{{ s.title }}</td>
+                  <td>{{ s.qty }}</td>
+                  <td>{{ s.price | number:'1.0-0' }} kes</td>
+                  <td>{{ (s.price * s.qty) | number:'1.0-0' }} kes</td>
+                  <td><strong>{{ s.deduction | number:'1.0-0' }} kes</strong></td>
+                </tr>
+                <tr class="total-row">
+                  <td><strong>Total</strong></td>
+                  <td></td>
+                  <td></td>
+                  <td><strong>{{ total | number:'1.0-0' }} kes</strong></td>
+                  <td><strong>{{ totalDeduction | number:'1.0-0' }} kes</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:26px">
+        <p class="verify-instruction">Enter the <strong>verification code</strong> sent to the parent at <strong>072******715</strong> via SMS.</p>
+        <div class="otp" style="justify-content:center">
+          <input
+            #otpInput
+            type="text"
+            inputmode="numeric"
+            maxlength="1"
+            *ngFor="let _ of verification; let i = index; trackBy: trackByIndex"
+            [ngModel]="verification[i]"
+            (ngModelChange)="onVerificationInput(i, $event)"
+            (keydown)="onVerificationKeydown(i, $event)"
+            [ngModelOptions]="{ standalone: true }"
+            [name]="'verification_' + i"
+          />
+        </div>
+      </div>
+
+      <div class="footer-action" style="margin-top:28px">
+        <button class="btn-back" (click)="back()">Back</button>
+        <button class="btn-deduct" [disabled]="!isVerificationComplete" (click)="pay()">Pay {{ totalDeduction | number:'1.0-0' }} Kes</button>
+      </div>
+
+      <p class="note">You will receive {{ totalDeduction | number:'1.0-0' }} kes from the subsidy program. If this does not cover the total cost of the purchase ensure you get the balance from the customer.</p>
+    </section>
+  </div>
+</div>
+
+<div class="payment-overlay" *ngIf="showPaymentModal">
+  <div class="payment-sheet">
+    <h3 class="payment-title">Payment Successful</h3>
+    <p class="payment-meta">Ref Number: <strong>{{ paymentRef }}</strong></p>
+    <p class="payment-meta">Date: <strong>{{ paymentDate }}</strong></p>
+
+    <div class="payment-icon" aria-hidden="true">
+      <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="48" cy="50" r="25" fill="#EDEBDD" stroke="#111" />
+        <path d="M36 50.5L45 59L60 40" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M63 22L66 6" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M75 32L88 24" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M77 49L94 52" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <p class="payment-amount">{{ totalDeduction | number:'1.2-2' }} KES</p>
+    <p class="payment-desc">Agrovet product purchase for</p>
+    <p class="payment-customer">{{ customerLabel }}</p>
+
+    <div class="payment-actions">
+      <button class="btn-receipt" (click)="downloadReceipt()">Download Receipt</button>
+      <button class="btn-done" (click)="donePayment()">Done</button>
+    </div>
+  </div>
+</div>

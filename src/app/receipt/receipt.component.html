@@ -1,0 +1,79 @@
+<div class="receipt-shell">
+  <div class="receipt-paper">
+    <div class="receipt-header">
+      <div class="left">
+        <div class="tag">Transaction Receipt</div>
+      </div>
+      <div class="right">
+        <div class="receipt-logos">
+          <img src="/images/logo/coop_bank.jpg" alt="Co-op Bank logo" />
+          <img src="/images/logo/Coat_of_Arms_of_Muranga_County.png" alt="Muranga County logo" />
+          <img src="/images/logo/court_of_arms.png" alt="Kenya coat of arms logo" />
+        </div>
+        <div class="meta">PAGE 1 OF 1</div>
+      </div>
+    </div>
+    <div class="header-divider"></div>
+
+    <div class="receipt-meta">
+      <div class="col">
+        <div class="meta-row"><span class="meta-label">Date:</span><span class="meta-value">{{ paymentDate }}</span></div>
+        <div class="meta-row"><span class="meta-label">Reference Number:</span><span class="meta-value">{{ paymentRef }}</span></div>
+        <div class="meta-row"><span class="meta-label">Wallet:</span><span class="meta-value">Muranga Kilimo</span></div>
+        <div class="meta-row"><span class="meta-label">Farmer Name/ID:</span><span class="meta-value">{{ customerLabel }}</span></div>
+        <div class="meta-row"><span class="meta-label">Farmer Phone No:</span><span class="meta-value">0712345678</span></div>
+      </div>
+      <div class="col right-col">
+        <div class="meta-row"><span class="meta-label">Agro-dealer Name:</span><span class="meta-value">Harrison Kungs</span></div>
+        <div class="meta-row"><span class="meta-label">Merchant ID:</span><span class="meta-value">POS1323535</span></div>
+        <div class="meta-row"><span class="meta-label">Phone Number:</span><span class="meta-value">0712 345 678</span></div>
+      </div>
+    </div>
+
+    <div class="receipt-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Product Code</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total Amount</th>
+            <th>Deduction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of selected">
+            <td>{{ s.title }}</td>
+            <td class="center">{{ s.qty }}</td>
+            <td class="right">{{ s.price | number:'1.0-0' }}</td>
+            <td class="right">{{ (s.price * s.qty) | number:'1.0-0' }}</td>
+            <td class="right">{{ s.deduction | number:'1.0-0' }}</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="3"></td>
+            <td class="total-label">TOTAL</td>
+            <td> <span class="total-value">{{ totalDeduction | number:'1.0-0' }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="receipt-footer">
+      <p class="thanks">Thank you for banking with us.</p>
+      <div class="zig-zag"></div>
+      <div class="note-box">
+        <div class="note-bar"></div>
+        <div class="note-content">
+          <strong>Note:</strong>
+          <span>This document is computer generated and therefore not signed.</span>
+        </div>
+      </div>
+      <div class="bottom-stripe"></div>
+    </div>
+  </div>
+
+  <div class="receipt-actions">
+    <button class="btn-back" (click)="back()">Back</button>
+    <button class="btn-print" (click)="print()">Print Receipt</button>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="login-container">
+    <!-- Left Side: Image Section -->
+    <div class="image-section">
+        <div class="logo-top-left">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="25" height="25" rx="4" fill="white" stroke="white" stroke-width="3" />
+                <rect x="45" y="10" width="25" height="25" rx="4" fill="white" stroke="white" stroke-width="3" />
+                <text x="40" y="55" fill="white" font-family="Arial, sans-serif" font-size="16"
+                    font-weight="bold">BANK</text>
+            </svg>
+        </div>
+        <img src="/images/login/image.png" alt="Farmer" class="farmer-image">
+
+    </div>
+
+    <!-- Right Side: Login Form -->
+    <div class="form-section">
+        <div class="login-card">
+            <div class="card-header">
+                <p class="welcome-text">WELCOME TO</p>
+                <h1 class="program-title">Inua Mkulima -<br>Subsidy Program</h1>
+            </div>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <!-- Step 1: Username Entry -->
+                <ng-container *ngIf="isUsernameStep">
+                    <p class="instruction-text">Enter your username to continue</p>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" formControlName="username" placeholder="P0ss1ID"
+                            class="form-control" [class.invalid]="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">
+                        <div class="error" *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">Please enter your username</div>
+                    </div>
+                </ng-container>
+
+                <!-- Step 2: Password Entry -->
+                <ng-container *ngIf="isPasswordStep">
+                    <p class="instruction-text">Enter your password</p>
+
+                    <div class="form-group password-field">
+                        <label for="password">Password</label>
+                        <div class="password-input-row">
+                            <input [type]="passwordFieldType" id="password" formControlName="password"
+                                placeholder="Enter your password" class="form-control" [class.invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+                            <div class="error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">Please enter your password</div>
+                            <button type="button" class="btn-toggle" (click)="togglePassword()" [attr.aria-pressed]="showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+                                <!-- Eye (visible when password is hidden) -->
+                                <svg *ngIf="!showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M12 4.5C7.305 4.5 3.135 7.24 1.5 11.5c1.635 4.26 5.805 7 10.5 7s8.865-2.74 10.5-7C20.865 7.24 16.695 4.5 12 4.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 15.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <!-- Eye with slash (visible when password is shown) -->
+                                <svg *ngIf="showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M2 2l20 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M10.94 10.94a3.5 3.5 0 004.12 4.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M14.12 14.12C15.231 13.02 16 11.57 16 10c0-4.76-4.67-8-8-8-1.57 0-3.02.768-4.12 1.88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <button type="submit" class="btn-continue" [disabled]="!isFormValid">
+                    <span>{{ isUsernameStep ? 'Continue' : 'Sign in' }}</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div class="login-error" *ngIf="loginError">{{ loginError }}</div>
+                <div class="loading" *ngIf="loading">Signing in…</div>
+            </form>
+        </div>
+    </div>
+</div>

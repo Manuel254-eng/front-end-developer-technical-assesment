@@ -1,0 +1,127 @@
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">Inua Mkulima Subsidy Program</div>
+    <div class="top-actions">
+      <span class="logged">Logged In As:&nbsp; <strong>{{ userName }}</strong></span>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li class="active">Dashboard</li>
+          <li>Transactions</li>
+          <li>Reports</li>
+        </ul>
+      </nav>
+    </aside>
+
+    <section class="content">
+      <h2>Product Details</h2>
+
+      <div class="toolbar">
+        <button class="btn-back">&lt; Back</button>
+        <div class="balance">Inua mkulima wallet <strong>balance: &nbsp; {{ walletBalance }}</strong></div>
+      </div>
+
+      <div class="panels">
+        <div class="panel products">
+          <h3>Products</h3>
+          <div class="product-list">
+            <div *ngIf="loadingProducts" class="loading">Loading products…</div>
+            <div *ngIf="productsError" class="error">{{ productsError }}</div>
+            <table *ngIf="!loadingProducts && !productsError">
+              <thead><tr><th>Product name</th><th>Price</th><th></th></tr></thead>
+              <tbody>
+                <tr *ngFor="let p of products">
+                  <td>{{ p.title }}</td>
+                  <td>{{ p.price }} KES</td>
+                  <td class="add">
+                    <button class="btn-add" (click)="addProduct(p)" [attr.aria-label]="'Add ' + p.title">+</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="pagination" *ngIf="total > pageSize">
+              <button (click)="goPrev()" [disabled]="!canPrev()">Prev</button>
+              <span>Page {{ page }} of {{ totalPages }}</span>
+              <button (click)="goNext()" [disabled]="!canNext()">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel selected">
+          <h3>Selected Products</h3>
+          <div *ngIf="selected.length === 0" class="empty">Please select a products from the products panel first</div>
+
+          <div *ngIf="selected.length > 0" class="selected-list">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product name</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Deduction</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of selected">
+                  <td>{{ s.title }}</td>
+                  <td><input type="number" min="1" [value]="s.qty" (input)="updateQty(s.id, $any($event.target).value)"></td>
+                  <td>{{ s.price }} kes</td>
+                  <td>{{ s.price * s.qty }} kes</td>
+                  <td><input type="number" [value]="s.deduction" disabled></td>
+                  <td><button class="btn-remove" (click)="removeSelected(s.id)">-</button></td>
+                </tr>
+                <tr class="total-row">
+                  <td><strong>Total</strong></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><strong>{{ totalDeduction }} kes</strong></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-action">
+        <button class="btn-clear" [disabled]="selected.length === 0" (click)="clearSelectedProducts()">Back</button>
+        <button class="btn-deduct" [disabled]="selected.length === 0" (click)="goToSummary()">Deduct {{ totalDeduction }} Kes</button>
+      </div>
+      <p class="note" *ngIf="selected.length > 0">
+        You will receive {{ totalDeduction }} kes from the subsidy program. If this does not cover the total
+        cost of the purchase ensure you get the balance from the customer.
+      </p>
+    </section>
+  </div>
+</div>
+
+<!-- Logout confirmation modal -->
+<div class="modal-overlay" *ngIf="showLogoutModal">
+  <div class="modal-sheet">
+    <h3 class="modal-title">Log Out?</h3>
+
+    <div class="modal-icon" aria-hidden="true">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="4" width="14" height="16" rx="2" stroke="#E0A10F" stroke-width="1.5"/>
+        <path d="M10 12h8" stroke="#E0A10F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14 8l4 4-4 4" stroke="#E0A10F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <p class="modal-text">Are you sure you want to log out?</p>
+
+    <div class="modal-actions">
+      <button class="btn-back" (click)="cancelLogout()">Back</button>
+      <button class="btn-confirm" (click)="confirmLogout()">Yes, log out</button>
+    </div>
+  </div>
+</div>
