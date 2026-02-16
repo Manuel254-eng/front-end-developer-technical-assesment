@@ -108,23 +108,8 @@
   </div>
 </div>
 
-<div class="modal-overlay" *ngIf="showLogoutModal">
-  <div class="modal-sheet">
-    <h3 class="modal-title">Log Out?</h3>
-
-    <div class="modal-icon" aria-hidden="true">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="4" width="14" height="16" rx="2" stroke="#E0A10F" stroke-width="1.5"/>
-        <path d="M10 12h8" stroke="#E0A10F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M14 8l4 4-4 4" stroke="#E0A10F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-
-    <p class="modal-text">Are you sure you want to log out?</p>
-
-    <div class="modal-actions">
-      <button class="btn-back" (click)="cancelLogout()">Back</button>
-      <button class="btn-confirm" (click)="confirmLogout()">Yes, log out</button>
-    </div>
-  </div>
-</div>
+<app-logout-modal
+  [visible]="showLogoutModal"
+  (cancel)="cancelLogout()"
+  (confirm)="confirmLogout()">
+</app-logout-modal>

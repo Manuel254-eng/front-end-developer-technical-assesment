@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { LogoutModalComponent } from '../shared/logout-modal/logout-modal.component';
 import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { TopBarComponent } from '../shared/top-bar/top-bar.component';
 
@@ -37,7 +38,7 @@ interface StoredUser {
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, TopBarComponent, SidebarComponent],
+  imports: [CommonModule, RouterModule, FormsModule, TopBarComponent, SidebarComponent, LogoutModalComponent],
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css']
 })

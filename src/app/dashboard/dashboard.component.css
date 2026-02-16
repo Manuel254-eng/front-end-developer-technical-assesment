@@ -132,33 +132,3 @@
     gap:8px;
   }
 }
-
-/* Logout modal styles */
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:2000;
-}
-.modal-sheet{
-  width:min(820px,90%);background:white;border-radius:8px;padding:36px 56px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;color:#222;
-}
-.modal-title{font-size:1.25rem;margin:0 0 18px;font-weight:700}
-.modal-icon{margin:8px 0 12px}
-.modal-text{color:#666;margin:12px 0 22px}
-.modal-actions{display:flex;gap:18px;justify-content:center;margin-top:8px}
-.modal-actions .btn-back{background:white;border:1px solid #111;padding:12px 36px;border-radius:8px;color: #000;}
-.modal-actions .btn-confirm{background:#111;color:white;padding:12px 36px;border-radius:8px;border:none}
-
-@media (max-width: 560px){
-  .modal-sheet{
-    width:min(94%, 420px);
-    padding:20px 16px;
-  }
-  .modal-actions{
-    flex-direction:column;
-    gap:10px;
-  }
-  .modal-actions .btn-back,
-  .modal-actions .btn-confirm{
-    width:100%;
-    padding:10px 12px;
-  }
-}
