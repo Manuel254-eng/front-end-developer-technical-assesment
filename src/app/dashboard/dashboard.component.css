@@ -12,7 +12,13 @@
 .panel{background:white;padding:18px;border-radius:8px;border:1px solid #dedede;flex:1}
 .panel.products{max-width:420px}
 .panel.selected{max-width:760px;min-height:160px;background:#fbf3e6;padding:22px}
-.product-list,.selected-list{overflow-x:auto}
+.product-list,.selected-list{
+  overflow-x:auto;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.product-list{max-height:50vh}
+.selected-list{max-height:46vh}
 .product-list table{width:100%;border-collapse:collapse}
 .product-list td,.product-list th{padding:12px 8px;color:#666}
 .product-list thead th{color:#222;font-weight:700;text-align:left}
@@ -88,6 +94,8 @@
   .selected-list table{
     min-width:640px;
   }
+  .product-list{max-height:40vh}
+  .selected-list{max-height:38vh}
   .footer-action{
     flex-direction:column;
     gap:10px;
@@ -114,7 +122,9 @@
   .btn-back{
     padding:8px 10px;
     font-size:0.92rem;
+    min-height:40px;
   }
+  .btn-add,.btn-remove{width:36px;height:36px}
   .product-list td,
   .product-list th,
   .selected-list td,
@@ -122,6 +132,8 @@
     padding:8px 6px;
     font-size:0.9rem;
   }
+  .product-list{max-height:36vh}
+  .selected-list{max-height:34vh}
   .selected-list input{
     width:52px;
     max-width:52px;

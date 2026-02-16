@@ -5,18 +5,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
   padding: 0 24px;
 }
 
 .brand {
   font-weight: 700;
   font-size: 1.25rem;
+  min-width: 0;
 }
 
 .top-actions {
   display: flex;
   align-items: center;
   gap: 16px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.logged {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .btn-logout {
@@ -47,3 +57,33 @@
   }
 }
 
+@media (max-width: 640px) {
+  .topbar {
+    height: auto;
+    min-height: 64px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    width: 100%;
+    font-size: 0.98rem;
+    line-height: 1.25;
+  }
+
+  .top-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .logged {
+    font-size: 0.8rem;
+    max-width: calc(100% - 94px);
+  }
+
+  .btn-logout {
+    min-height: 36px;
+    padding: 6px 10px;
+  }
+}
