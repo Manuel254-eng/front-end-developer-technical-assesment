@@ -33,6 +33,9 @@ interface SelectedProduct {
   discountPct?: number;
 }
 
+const WALLET_BALANCE_KEY = 'wallet_balance';
+const DEFAULT_WALLET_BALANCE = 2400;
+
 /**
  * Dashboard screen that loads products, tracks user item selection,
  * and sends an order summary to the summary route.
@@ -46,7 +49,7 @@ interface SelectedProduct {
 })
 export class DashboardComponent implements OnInit {
   userName: string | null = null;
-  walletBalance = 'Kes 2,400.00';
+  walletBalance = DEFAULT_WALLET_BALANCE;
   showLogoutModal = false;
 
   products: Product[] = [];
@@ -75,7 +78,15 @@ export class DashboardComponent implements OnInit {
       this.userName = 'USER';
     }
 
+    this.walletBalance = this.getStoredWalletBalance();
     this.fetchProducts(this.page);
+  }
+
+  get walletBalanceDisplay(): string {
+    return `Kes ${this.walletBalance.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`;
   }
 
   /** Loads one paged chunk of products from the demo API. */
@@ -253,5 +264,24 @@ export class DashboardComponent implements OnInit {
   /** Closes logout confirmation modal without signing out. */
   cancelLogout(): void {
     this.showLogoutModal = false;
+  }
+
+  private getStoredWalletBalance(): number {
+    try {
+      const raw = localStorage.getItem(WALLET_BALANCE_KEY);
+      const parsed = Number.parseFloat(raw || '');
+      if (Number.isFinite(parsed) && parsed >= 0) {
+        return parsed;
+      }
+    } catch {
+      // Fall through to default value when storage is inaccessible.
+    }
+
+    try {
+      localStorage.setItem(WALLET_BALANCE_KEY, String(DEFAULT_WALLET_BALANCE));
+    } catch {
+      // Ignore storage failures and continue with in-memory default.
+    }
+    return DEFAULT_WALLET_BALANCE;
   }
 }

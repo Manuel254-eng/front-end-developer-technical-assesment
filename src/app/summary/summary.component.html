@@ -108,6 +108,15 @@
   </div>
 </div>
 
+<div class="insufficient-overlay" *ngIf="showInsufficientModal">
+  <div class="insufficient-sheet">
+    <h3>Insufficient Wallet Balance</h3>
+    <p>Your current wallet balance is <strong>{{ walletBalanceDisplay }}</strong>.</p>
+    <p>You need an additional <strong>{{ shortfallDisplay }}</strong> to complete this payment.</p>
+    <button class="btn-close-insufficient" (click)="closeInsufficientModal()">Okay</button>
+  </div>
+</div>
+
 <app-logout-modal
   [visible]="showLogoutModal"
   (cancel)="cancelLogout()"

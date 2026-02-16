@@ -29,6 +29,9 @@ interface StoredUser {
   email?: string;
 }
 
+const WALLET_BALANCE_KEY = 'wallet_balance';
+const DEFAULT_WALLET_BALANCE = 2400;
+
 /**
  * Payment summary screen.
  *
@@ -55,6 +58,8 @@ export class SummaryComponent implements OnInit {
 
   showPaymentModal = false;
   showLogoutModal = false;
+  showInsufficientModal = false;
+  paymentProcessed = false;
   paymentRef = '';
   paymentDate = '';
   customerLabel = '';
@@ -102,6 +107,16 @@ export class SummaryComponent implements OnInit {
 
   /** Opens payment confirmation modal. */
   pay(): void {
+    const currentBalance = this.getStoredWalletBalance();
+    if (currentBalance < this.totalDeduction) {
+      this.showInsufficientModal = true;
+      return;
+    }
+
+    if (!this.paymentProcessed) {
+      this.applyWalletDeduction();
+      this.paymentProcessed = true;
+    }
     this.showPaymentModal = true;
   }
 
@@ -128,6 +143,51 @@ export class SummaryComponent implements OnInit {
   /** Closes logout confirmation modal without signing out. */
   cancelLogout(): void {
     this.showLogoutModal = false;
+  }
+
+  closeInsufficientModal(): void {
+    this.showInsufficientModal = false;
+  }
+
+  get walletBalanceDisplay(): string {
+    const balance = this.getStoredWalletBalance();
+    return `${balance.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })} Kes`;
+  }
+
+  get shortfallDisplay(): string {
+    const shortfall = Math.max(0, this.totalDeduction - this.getStoredWalletBalance());
+    return `${shortfall.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })} Kes`;
+  }
+
+  private applyWalletDeduction(): void {
+    const currentBalance = this.getStoredWalletBalance();
+    const updatedBalance = Math.max(0, currentBalance - this.totalDeduction);
+
+    try {
+      localStorage.setItem(WALLET_BALANCE_KEY, String(updatedBalance));
+    } catch {
+      // Ignore storage errors to avoid blocking payment UX.
+    }
+  }
+
+  private getStoredWalletBalance(): number {
+    try {
+      const raw = localStorage.getItem(WALLET_BALANCE_KEY);
+      const parsed = Number.parseFloat(raw || '');
+      if (Number.isFinite(parsed) && parsed >= 0) {
+        return parsed;
+      }
+    } catch {
+      // Fall through to default value when storage is inaccessible.
+    }
+
+    return DEFAULT_WALLET_BALANCE;
   }
 
   /**
